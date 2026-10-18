@@ -1,0 +1,1222 @@
+﻿# IMPORTS
+from __future__ import annotations
+from dotenv import load_dotenv
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, StreamingResponse
+from functools import lru_cache
+from google.generativeai import configure, GenerativeModel
+from io import BytesIO
+from pathlib import Path
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from typing import Dict, List
+import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "dotenv/config";
+import {
+import { BrowserRouter } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import { defineConfig } from "vite";
+import { exec } from "child_process";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { initializeApp } from "firebase/app";
+import { io } from "socket.io-client";
+import { MongoClient, ServerApiVersion } from "mongodb";
+import { motion, useAnimation, useMotionValue, useTransform } from "motion/react";
+import { motion, useMotionValue, useAnimationFrame, useTransform } from "motion/react";
+import { OAuth2Client } from "google-auth-library";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Routes, Route } from "react-router-dom";
+import { Server } from "socket.io";
+import { StreamChat } from "stream-chat";
+import { Suspense, lazy } from "react";
+import { useCallStateHooks } from "@stream-io/video-react-bindings";
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useCallback, useEffect, useRef } from "react";
+import argostranslate.translate
+import asyncio
+import axios from "axios";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import ffmpeg from "fluent-ffmpeg";
+import fs from "fs";
+import google.generativeai as genai
+import http from "http";
+import json
+import jwt from "jsonwebtoken";
+import multer from "multer";
+import numpy as np
+import os
+import os from "os";
+import path from "path";
+import PDFDocument from "pdfkit";
+import react from "@vitejs/plugin-react";
+import React from "react";
+import React from "react"; // âœ… REQUIRED in your setup
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
+import sherpa_onnx
+import torch
+import warnings
+import WebSocket from "ws";
+
+# MAIN RAW CODE (ULTRA COMPACT)
+
+app.get("/", (req, res) => {
+
+
+const toAlphaUsername = (email = "") => {
+  return lettersOnly || "user";
+export const googleAuthController = async (req, res) => {
+    if (!credential) {
+    if (!GOOGLE_CLIENT_ID) {
+    const ticket = await oauthClient.verifyIdToken({
+    if (!payload?.email || !payload?.sub) {
+    await usersCollection().updateOne(
+      {
+    return res.json({
+export const firebaseAuthController = async (req, res) => {
+    if (!idToken) {
+    if (!FIREBASE_WEB_API_KEY) {
+    const response = await axios.post(
+    if (!account?.localId || !account?.email) {
+    await usersCollection().updateOne(
+      {
+    return res.json({
+    if (status >= 400 && status < 500) {
+export const meController = async (req, res) => {
+    const user = await usersCollection().findOne(
+      {
+      }
+    if (!user) {
+    return res.json({
+
+
+const generateWithFallbackModel = async ({ genAI, prompt }) => {
+  for (const modelName of GEMINI_MODELS) {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      if (!text) {
+      return { text, modelName };
+    }
+  }
+export const correctTranscriptController = async (req, res) => {
+    if (!text || !text.trim()) {
+    if (!process.env.GEMINI_API_KEY) {
+Return only corrected text.
+    const { text: correctedText, modelName } = await generateWithFallbackModel({
+    return res.json({ correctedText, model: modelName });
+  }
+export const modifySummaryController = async (req, res) => {
+    if (!summary || !summary.trim()) {
+    if (!process.env.GEMINI_API_KEY) {
+    const { text: modifiedSummary, modelName } = await generateWithFallbackModel({
+    return res.json({ modifiedSummary, model: modelName });
+  }
+
+
+export const speechToTextController = async (req, res) => {
+    if (!req.file) {
+    const text = await transcribeAudioChunk(filePath);
+
+
+export const getStreamTokenController = (req, res) => {
+  if (!userId) {
+
+
+export const meetingParticipantsCollection = () =>
+export const meetingSummariesCollection = () =>
+
+
+export const connectMongo = async () => {
+  if (db) return db;
+  if (!uri) {
+  await client.connect();
+  await db.command({ ping: 1 });
+  return db;
+export const getDb = () => {
+  if (!db) {
+  return db;
+export const closeMongo = async () => {
+  if (client) {
+    await client.close();
+  }
+
+
+export const ensureIndexes = async () => {
+  await usersCollection().createIndex({ google_id: 1 }, { unique: true });
+  await usersCollection().createIndex({ email: 1 }, { unique: true });
+  await meetingsCollection().createIndex({ meeting_id: 1 }, { unique: true });
+  await meetingsCollection().createIndex({ host_user_id: 1, created_at: -1 });
+  await meetingParticipantsCollection().createIndex(
+  await meetingParticipantsCollection().createIndex({ meeting_id: 1, joined_at: -1 });
+  await meetingParticipantsCollection().createIndex({ user_id: 1, role: 1, joined_at: -1 });
+  await meetingSummariesCollection().createIndex(
+  await meetingSummariesCollection().createIndex({ meeting_id: 1, generated_at: -1 });
+
+
+export const generateStreamToken = (userId) => {
+  return streamClient.createToken(userId.toString());
+
+
+export const signAppToken = (payload) => {
+  if (!JWT_SECRET) {
+  return jwt.sign(payload, JWT_SECRET, {
+export const verifyAppToken = (token) => {
+  if (!JWT_SECRET) {
+  return jwt.verify(token, JWT_SECRET);
+export const requireAuth = (req, res, next) => {
+  if (!token) {
+    return next();
+
+
+router.post("/google", googleAuthController);
+router.post("/firebase", firebaseAuthController);
+router.get("/me", requireAuth, meController);
+
+
+router.post("/correct", correctTranscriptController);
+router.post("/modify-summary", modifySummaryController);
+
+
+const computeDuration = (meeting) => {
+  if (typeof meeting?.duration_seconds === "number") {
+    return meeting.duration_seconds;
+  }
+  if (!startedAt || !endedAt) return null;
+  return Math.max(0, seconds);
+router.get("/meetings/member", requireAuth, async (req, res) => {
+    const entries = await meetingParticipantsCollection()
+      .aggregate([
+        {
+        {
+        {
+        {
+    const meetings = entries.map((item) => ({
+    return res.json({ meetings });
+router.get("/meetings/host", requireAuth, async (req, res) => {
+    const hostEntries = await meetingParticipantsCollection()
+      .aggregate([
+        {
+        {
+        {
+        {
+          .flatMap((entry) => (entry.participants || []).map((participant) => participant.user_id))
+          .filter(Boolean)
+    const users = await usersCollection()
+      .find(
+    const userMap = new Map(users.map((user) => [user.google_id, user]));
+    const meetings = hostEntries.map((entry) => {
+      const participants = (entry.participants || [])
+        .filter((participant) => participant.role !== "host")
+        .map((participant) => {
+          return {
+      return {
+    return res.json({ meetings });
+router.get("/summaries", requireAuth, async (req, res) => {
+    const membershipDocs = await meetingParticipantsCollection()
+      .find(
+    const meetingIds = [...new Set(membershipDocs.map((doc) => doc.meeting_id).filter(Boolean))];
+    if (!meetingIds.length) {
+      return res.json({ summaries: [] });
+    }
+    const summaries = await meetingSummariesCollection()
+      .aggregate([
+        {
+        {
+        {
+    const normalized = summaries.map((item) => ({
+    return res.json({ summaries: normalized });
+router.get("/meetings/:meetingId/meta", requireAuth, async (req, res) => {
+    const meeting = await meetingsCollection().findOne(
+      {
+      }
+    if (!meeting) {
+      return res.json({
+    }
+    return res.json({
+
+
+const applyPdfFont = (doc) => {
+  for (const fontPath of PDF_FONT_CANDIDATES) {
+    if (!fs.existsSync(fontPath)) continue;
+      return fontPath;
+    }
+  }
+  return "Helvetica";
+const dedupeNonEmptyLines = (text) => {
+  return text
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => {
+      if (seen.has(normalized)) return false;
+      return true;
+    .join("\n");
+const buildFallbackPdfBuffer = ({ hostName, subject, lang, transcriptList }) =>
+  new Promise((resolve, reject) => {
+    if (!transcriptList.length) {
+      return;
+    }
+    transcriptList.forEach((entry, idx) => {
+      if (lineText?.trim()) {
+      }
+const buildSummaryPdfBuffer = ({ hostName, subject, summaryText }) =>
+  new Promise((resolve, reject) => {
+    if (!summaryText?.trim()) {
+      return;
+    }
+      .forEach((line) => {
+const fetchTranscript = async (meetingId, targetLang) => {
+  const transcriptRes = await axios.get(
+  return transcriptRes.data?.transcript || [];
+const fetchStoredSummary = async (meetingId, targetLang) => {
+  const exact = await meetingSummariesCollection().findOne(
+  if (exact?.summary_text?.trim()) {
+    return exact;
+  }
+  const latest = await meetingSummariesCollection()
+    .find(
+      {
+      }
+  return latest || null;
+const runGeminiWithFallback = async ({ prompt }) => {
+  if (!process.env.GEMINI_API_KEY) {
+  for (const modelName of GEMINI_MODELS) {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      if (!text) {
+      return { text, modelName };
+    }
+  }
+const polishAndTranslateSummary = async ({ summaryText, targetLang }) => {
+5. Return only the final lines, no markdown.
+  const { text, modelName } = await runGeminiWithFallback({ prompt });
+  return { summaryText: text, modelName };
+const saveSummarySnapshot = async ({ meetingId, targetLang, transcriptList }) => {
+  if (!transcriptList.length) return;
+    .map((entry) => {
+      return text?.trim() ? `${entry.speaker || "Speaker"}: ${text}` : null;
+    .filter(Boolean);
+  if (!summaryLines.length) return;
+  const summaryText = dedupeNonEmptyLines(summaryLines.join("\n")).slice(0, 12000);
+  await saveMeetingSummary({
+router.get("/:meetingId", async (req, res) => {
+    const meeting = await meetingsCollection().findOne(
+    const transcriptList = await fetchTranscript(meetingId, targetLang).catch(() => []);
+    if (targetLang !== "en") {
+        const upstreamPdf = await axios.get(
+      }
+    }
+    if (!pdfBuffer && transcriptList.length) {
+      pdfBuffer = await buildFallbackPdfBuffer({
+    } else if (!pdfBuffer) {
+        const upstreamPdf = await axios.get(
+        if (upstreamErr.response?.status !== 404) {
+        const storedSummary = await fetchStoredSummary(meetingId, targetLang);
+        if (storedSummary?.summary_text?.trim()) {
+            const polished = await polishAndTranslateSummary({
+          }
+          await saveMeetingSummary({
+          pdfBuffer = await buildSummaryPdfBuffer({
+          pdfBuffer = await buildFallbackPdfBuffer({
+        }
+      }
+    }
+      await saveSummarySnapshot({ meetingId, targetLang, transcriptList });
+    }
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+    res.send(pdfBuffer);
+
+
+router.post("/speech-to-text", upload.single("audio"), speechToTextController);
+
+
+router.post("/token", requireAuth, getStreamTokenController);
+
+
+router.get("/:meetingId", async (req, res) => {
+    const response = await axios.get(
+    if (upstreamStatus === 404) {
+
+
+router.post("/:meetingId/modify", async (req, res) => {
+    if (!meetingId) {
+    const response = await axios.post(
+    return res.json({
+    if (upstreamStatus === 404) {
+  }
+
+
+const meetingHosts = new Map();
+const pendingJoinRequests = new Map();
+io.use((socket, next) => {
+    if (!token) {
+    return next();
+io.on("connection", (socket) => {
+  socket.on("join-meeting", async ({ meeting_id, speaker_id, display_name, role }) => {
+    socket.join(meetingId);
+    await upsertMeetingParticipant({
+  socket.on("register-host", async ({ meetingId: roomId, hostName, hostId, meetingSubject }) => {
+    if (!roomId) return;
+    socket.join(`host:${roomId}`);
+    await ensureMeetingForHost({
+    await upsertMeetingParticipant({
+  socket.on("request-join", ({ meetingId: roomId, requesterName, requesterId }) => {
+    if (!roomId) return;
+    if (!hostInfo?.socketId) {
+      socket.emit("join-response", {
+      return;
+    }
+    io.to(hostInfo.socketId).emit("join-request", {
+  socket.on("respond-join-request", ({ requestId, accepted }) => {
+    if (!request) return;
+    io.to(request.requesterSocketId).emit("join-response", {
+  socket.on("audio-chunk", (chunk) => {
+    if (!meetingId) return;
+  socket.on("set-language", (lang) => {
+    if (!meetingId) return;
+  socket.on("disconnect", () => {
+    if (meetingId) {
+      markParticipantLeft({ meetingId, socketId: socket.id }).catch((err) => {
+    }
+    for (const [roomId, hostInfo] of meetingHosts.entries()) {
+      if (hostInfo.socketId === socket.id) {
+      }
+    }
+    for (const [requestId, request] of pendingJoinRequests.entries()) {
+      if (request.requesterSocketId === socket.id) {
+      }
+    }
+const getLocalIP = () => {
+  for (const name of Object.keys(interfaces)) {
+    for (const net of interfaces[name]) {
+      if (net.family === "IPv4" && !net.internal) {
+        return net.address;
+      }
+    }
+  }
+  return "localhost";
+const tryReachExistingBackend = async () => {
+    const response = await fetch(`http://127.0.0.1:${PORT}/`, {
+    if (!response.ok) return false;
+    const payload = await response.json();
+    return payload?.status?.includes("Backend running") || false;
+    return false;
+  }
+const listenAsync = (port) =>
+  new Promise((resolve, reject) => {
+    const onError = (err) => {
+    const onListening = () => {
+const startServer = async () => {
+  await connectMongo();
+  await ensureIndexes();
+    await listenAsync(PORT);
+    if (err?.code === "EADDRINUSE") {
+      const existingBackend = await tryReachExistingBackend();
+      if (existingBackend) {
+        await closeMongo();
+      }
+    }
+startServer().catch((err) => {
+
+
+export const transcribeWithLocalWhisper = (audioFilePath) => {
+    return new Promise((resolve, reject) => {
+
+
+export const ensureMeetingForHost = async ({ meetingId, hostId, hostName, subject }) => {
+  if (!meetingId || !hostId) return;
+  await meetingsCollection().updateOne(
+    {
+}) => {
+  if (!meetingId || !userId) return;
+  await meetingParticipantsCollection().updateOne(
+    {
+export const markParticipantLeft = async ({ meetingId, socketId }) => {
+  if (!meetingId || !socketId) return;
+  await meetingParticipantsCollection().updateMany(
+    {
+    }
+  const activeParticipants = await meetingParticipantsCollection().countDocuments({
+  if (activeParticipants > 0) return;
+  const meeting = await meetingsCollection().findOne(
+  if (!meeting) return;
+  if (meeting.ended_at) return;
+  await meetingsCollection().updateOne(
+    {
+    {
+    }
+}) => {
+  if (!meetingId || !summaryText) return;
+  await meetingSummariesCollection().updateOne(
+    {
+
+
+export const initSocket = (server) => {
+  io.on("connection", (socket) => {
+    socket.on("join-meeting", ({ meetingId }) => {
+      socket.join(meetingId);
+      if (!meetings[meetingId]) {
+      }
+      if (!meetings[meetingId].includes(socket.id)) {
+      }
+      const participants = meetings[meetingId].map((id, index) => ({
+      io.to(meetingId).emit("participants-init", participants);
+      socket.to(meetingId).emit("user-joined", socket.id);
+    socket.on("media-state", ({ meetingId, videoOn, micOn }) => {
+      socket.to(meetingId).emit("media-state", {
+    socket.on("offer", ({ to, offer }) => {
+      io.to(to).emit("offer", { from: socket.id, offer });
+    socket.on("answer", ({ to, answer }) => {
+      io.to(to).emit("answer", { from: socket.id, answer });
+    socket.on("ice-candidate", ({ to, candidate }) => {
+      io.to(to).emit("ice-candidate", {
+    socket.on("leave-meeting", (meetingId) => {
+        meetings[meetingId]?.filter((id) => id !== socket.id) || [];
+      socket.leave(meetingId);
+      const updated = meetings[meetingId].map((id, index) => ({
+      io.to(meetingId).emit("participants-init", updated);
+      socket.to(meetingId).emit("user-left", socket.id);
+    socket.on("disconnect", () => {
+      for (const meetingId in meetings) {
+        meetings[meetingId] = meetings[meetingId].filter(
+        const updated = meetings[meetingId].map((id, index) => ({
+        io.to(meetingId).emit("participants-init", updated);
+      }
+  return io; // ðŸ”¥ VERY IMPORTANT
+
+
+const whisperConnections = new Map();
+    }
+  }
+export const connectToWhisper = ({ connectionId, meetingId, speakerId, displayName }) => {
+  if (!connectionId || !meetingId) return null;
+  if (whisperConnections.has(connectionId)) {
+    if (existing.socket.readyState === WebSocket.OPEN) {
+      return existing.socket;
+    }
+  }
+  socket.on("open", () => {
+    if (entry) {
+    }
+    socket.send(
+  socket.on("message", (data) => {
+      if (!parsed?.text) return;
+      if (global.io) {
+        global.io.to(meetingId).emit("subtitle", parsed);
+      }
+    }
+  socket.on("close", () => {
+  return socket;
+export const sendAudioChunk = (connectionId, chunk) => {
+  if (!conn) return;
+  if (conn.socket.readyState !== WebSocket.OPEN) return;
+  conn.socket.send(Buffer.from(chunk));
+export const sendLanguageUpdate = (connectionId, lang) => {
+  if (!conn) return;
+  if (conn.socket.readyState !== WebSocket.OPEN) return;
+  conn.socket.send(
+export const closeWhisperConnection = (connectionId) => {
+  if (!conn) return;
+  if (
+  }
+
+
+export const saveChunkToFile = (buffer) => {
+  const filePath = path.join("temp", fileName);
+  return filePath;
+
+
+export const convertToWav = (inputPath) => {
+  return new Promise((resolve, reject) => {
+    const outputPath = path.join(dir, `${baseName}.wav`);
+      .on("start", (cmd) => {
+      .on("end", () => {
+        if (fs.existsSync(outputPath)) {
+        }
+
+
+const LOG_FILE = path.join(LOG_DIR, "operations.log");
+const ensureLogDir = () => {
+  if (!fs.existsSync(LOG_DIR)) {
+  }
+export const logOperation = (event, payload = {}) => {
+  }
+
+
+const App = () => {
+  return (
+
+
+const getInitial = (email = "") => {
+  const local = (email.split("@")[0] || "u").trim();
+  return local.charAt(0).toUpperCase() || "U";
+const AccountMenu = ({ user, onLogout }) => {
+  const profileName = useMemo(() => {
+    if (user?.fullName) return user.fullName;
+    if (user?.username) return user.username;
+    return "Account";
+  useEffect(() => {
+    const onWindowClick = (event) => {
+      if (!menuRef.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    return () => window.removeEventListener("click", onWindowClick);
+  return (
+        onClick={() => setOpen((prev) => !prev)}
+
+
+const getRotationTransition = (duration, from, loop = true) => ({
+const getTransition = (duration, from) => ({
+const CircularFeatureOrbit = ({
+}) => {
+  useEffect(() => {
+  const handleHoverStart = () => {
+    if (!onHover) return;
+    if (onHover === "slowDown") {
+    } else if (onHover === "speedUp") {
+    } else if (onHover === "pause") {
+    } else if (onHover === "goBonkers") {
+    }
+  const handleHoverEnd = () => {
+  return (
+        {features.map((feature, index) => {
+          const angle = (2 * Math.PI * index) / features.length - Math.PI / 2;
+          return (
+                  onError={(e) => {
+
+
+useAnimationFrame((time) => {
+    if (isPaused) {
+      return;
+    }
+    if (lastTimeRef.current === null) {
+      return;
+    }
+    if (yoyo) {
+      if (cycleTime < animationDuration) {
+      }
+    }
+  useEffect(() => {
+  const backgroundPosition = useTransform(progress, (p) => {
+    if (direction === "horizontal") return `${p}% 50%`;
+    if (direction === "vertical") return `50% ${p}%`;
+    return `${p}% 50%`;
+  const handleMouseEnter = useCallback(() => {
+    if (pauseOnHover) setIsPaused(true);
+  const handleMouseLeave = useCallback(() => {
+    if (pauseOnHover) setIsPaused(false);
+  const gradientColors = [...colors, colors[0]].join(", ");
+  return (
+}
+
+
+const missingEnvKeys = requiredEnvKeys.filter((key) => !import.meta.env[key]);
+if (missingEnvKeys.length) {
+export const FirebaseProvider = ({ children }) => {
+  useEffect(() => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    return () => unsubscribe();
+  const signinWithGoogle = async () => {
+    await signInWithPopup(auth, googleProvider);
+  const logout = async () => {
+    await signOut(auth);
+  return <FirebaseContext.Provider value={value}>{children}</FirebaseContext.Provider>;
+export const useFirebase = () => {
+  if (!context) {
+  return context;
+
+
+}) => {
+  useEffect(() => {
+    if (!enabled || !stream || !meetingId || !speakerId || !authToken) {
+      return;
+    }
+    return () => stop();
+  useEffect(() => {
+    if (socketRef.current && socketRef.current.connected && language) {
+      socketRef.current.emit("set-language", language);
+    }
+  const start = async () => {
+    if (socketRef.current) return;
+      {
+    socketRef.current.on("connect", () => {
+      socketRef.current.emit("join-meeting", {
+      if (language) {
+        socketRef.current.emit("set-language", language);
+      }
+    socketRef.current.on("connect_error", (err) => {
+    socketRef.current.on("disconnect", (reason) => {
+    socketRef.current.on("subtitle", (data) => {
+      if (!data?.text) return;
+    if (audioContext.state === "suspended") {
+        await audioContext.resume();
+      }
+    }
+    processor.onaudioprocess = (e) => {
+      if (!socketRef.current) return;
+      if (!socketRef.current.connected) return;
+      socketRef.current.emit("audio-chunk", float32.buffer);
+  const stop = async () => {
+    if (socketRef.current) {
+    }
+    if (
+      await audioContextRef.current.close();
+    }
+
+
+const authHeaders = () => {
+  return token ? { Authorization: `Bearer ${token}` } : {};
+export const googleAuth = async (credential) => {
+  const res = await fetch(`${API_BASE}/auth/google`, {
+  if (!res.ok) {
+  return res.json();
+export const firebaseAuth = async (idToken) => {
+  const res = await fetch(`${API_BASE}/auth/firebase`, {
+  if (!res.ok) {
+      const errorBody = await res.json();
+    }
+  return res.json();
+export const getMe = async () => {
+  const res = await fetch(`${API_BASE}/auth/me`, {
+  if (!res.ok) {
+  return res.json();
+export const getStreamToken = async ({ queryKey }) => {
+  const res = await fetch(`${API_BASE}/stream/token`, {
+  if (!res.ok) {
+  return res.json();
+export const getMeetingHistory = async (type) => {
+  const res = await fetch(`${API_BASE}/history/meetings/${type}`, {
+  if (!res.ok) {
+  return res.json();
+export const getSummaryHistory = async () => {
+  const res = await fetch(`${API_BASE}/history/summaries`, {
+  if (!res.ok) {
+  return res.json();
+export const getMeetingMeta = async (meetingId) => {
+  const res = await fetch(`${API_BASE}/history/meetings/${meetingId}/meta`, {
+  if (!res.ok) {
+  return res.json();
+export const triggerTranscriptModify = async (meetingId) => {
+  const res = await fetch(`${API_BASE}/transcript/${meetingId}/modify`, {
+    payload = await res.json();
+  }
+  return { ok: res.ok, status: res.status, payload };
+export const correctTranscript = async (text) => {
+  const res = await fetch(`${API_BASE}/gemini/correct`, {
+  if (!res.ok) {
+  const data = await res.json();
+  return data.correctedText;
+
+
+const formatDateTime = (value) => {
+  if (!value) return "-";
+  return new Date(value).toLocaleString();
+const formatDurationHms = (totalSeconds) => {
+  const seconds = (total % 60).toString().padStart(2, "0");
+  return `${hours}:${minutes}:${seconds}`;
+const mapTranscriptEntryToBlock = (entry, language) => {
+  return {
+const CallInner = ({
+}) => {
+  const subjectLabel = (meetingSubject || "General Discussion").trim();
+    .map((participant) => {
+      return name.charAt(0).toUpperCase();
+  return (
+              {participantInitials.map((initial, index) => (
+          {participants.map((participant) => {
+            return (
+            {transcriptBlocks.map((block, i) => (
+            onChange={(e) => setLanguage(e.target.value)}
+const CallPage = () => {
+  const loadTranscriptHistory = useCallback(async () => {
+      const res = await fetch(`${API_BASE}/transcript/${meetingId}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!transcriptList.length) return;
+        .map((entry) => mapTranscriptEntryToBlock(entry, language))
+        .filter((entry) => entry.text?.trim());
+      setTranscriptBlocks(mappedBlocks);
+    }
+  const toggleTranscriptPanel = async () => {
+    setSubtitlesEnabled(next);
+    if (next) {
+      await loadTranscriptHistory();
+    }
+  useEffect(() => {
+    if (!isJoined || !subtitlesEnabled) return;
+  useEffect(() => {
+    if (!canEnterMeeting || !authToken) {
+      navigate("/", {
+    }
+  useEffect(() => {
+    if (!canEnterMeeting) return;
+    if (!tokenData?.token) return;
+    const applyInitialMediaState = async (activeCall) => {
+      if (!activeCall) return;
+      if (preJoinMicOn) {
+        await activeCall.microphone.enable();
+        await activeCall.microphone.disable();
+      }
+      if (preJoinVideoOn) {
+        await activeCall.camera.enable();
+        await activeCall.camera.disable();
+      }
+    const initCall = async () => {
+      micStream = await navigator.mediaDevices.getUserMedia({
+      if (micTrack) {
+      }
+      setLocalStream(micStream);
+      await callInstance.join({
+      await applyInitialMediaState(callInstance);
+      setClient(videoClient);
+      setCall(callInstance);
+      setIsJoined(true);
+    return () => {
+      setIsJoined(false);
+  useEffect(() => {
+    if (!isJoined) return;
+  useEffect(() => {
+    if (!canEnterMeeting || role !== "host") return;
+    const handleJoinRequest = (payload) => {
+      setJoinRequests((prev) => [...prev, payload]);
+    socket.emit("register-host", {
+    return () => {
+  useEffect(() => {
+    if (!canEnterMeeting || !authToken) return;
+    const loadMeetingMeta = async () => {
+        const data = await getMeetingMeta(meetingId);
+        if (!cancelled) {
+          setMeetingMeta(data);
+          if (data?.startedAt) {
+          }
+        }
+      }
+    return () => {
+  useEffect(() => {
+    if (!isJoined) return;
+    if (!callStartRef.current) {
+    }
+    const updateDuration = () => {
+      if (meetingMeta?.endedAt && typeof meetingMeta.durationSeconds === "number") {
+        setLiveElapsedSeconds(meetingMeta.durationSeconds);
+        setLiveElapsedSeconds(elapsed);
+      }
+    const intervalId = window.setInterval(updateDuration, 1000);
+    return () => window.clearInterval(intervalId);
+    onText: ({ text, final, speaker }) => {
+      if (!text?.trim()) return;
+      if (final) {
+        setTranscriptBlocks((prev) => {
+          if (
+              (item) =>
+            return prev;
+          }
+          if (prev.length === 0) {
+            return [{ speaker: normalizedSpeaker, text: normalizedText }];
+          }
+          if (
+          }
+          return updated;
+        setLiveLine("");
+        setLiveSpeaker("");
+        setLiveLine(text);
+        setLiveSpeaker(normalizedSpeaker);
+      }
+  useEffect(() => {
+    if (transcriptRef.current) {
+    }
+  const handleLeave = async () => {
+    navigate(`/summary/${meetingId}`);
+    void (async () => {
+        if (call) {
+          await call.leave();
+        }
+      }
+        const transcriptRes = await fetch(`${API_BASE}/transcript/${meetingId}`);
+        if (transcriptRes.ok) {
+          const transcriptPayload = await transcriptRes.json();
+        }
+        if (!transcriptList.length) {
+          return;
+        }
+        const modifyRes = await fetch(`${API_BASE}/transcript/${meetingId}/modify`, {
+          modifyPayload = await modifyRes.json();
+        }
+        if (modifyRes.ok) {
+        }
+      }
+  const respondToJoinRequest = (request, accepted) => {
+    socket.emit("respond-join-request", {
+    setJoinRequests((prev) => prev.filter((item) => item.requestId !== request.requestId));
+  if (!canEnterMeeting || !authToken) {
+    return null;
+  }
+  if (!client || !call || !isJoined) {
+    return <p style={{ padding: 20 }}>Joining meeting...</p>;
+  }
+  return (
+
+
+const generateMeetingId = () =>
+const ensureUserId = () => {
+  if (existing) return existing;
+  localStorage.setItem("meeting_user_id", newId);
+  return newId;
+const formatDateTime = (value) => {
+  if (!value) return "-";
+  return new Date(value).toLocaleString();
+const formatDuration = (value) => {
+  if (value === null || value === undefined) return "-";
+  if (hrs > 0) {
+    return `${hrs}h ${mins}m ${secs}s`;
+  }
+  if (mins > 0) {
+    return `${mins}m ${secs}s`;
+  }
+  return `${secs}s`;
+const Home = () => {
+    {
+    {
+    {
+    {
+    {
+  useEffect(() => {
+    const bootstrapAuth = async () => {
+      if (!existingToken) {
+        setIsAuthLoading(false);
+        return;
+      }
+        const data = await getMe();
+        setAuthUser(data.user);
+        setIsAuthLoading(false);
+      }
+  useEffect(() => {
+    if (redirectMeetingId) {
+      setMeetingId(redirectMeetingId);
+      setJoinStatusMessage("Please check camera and mic, then ask to join.");
+      navigate("/", { replace: true, state: {} });
+    }
+  useEffect(() => {
+    return () => {
+      if (mediaStream) {
+      }
+  useEffect(() => {
+    if (previewRef.current && mediaStream) {
+    }
+  useEffect(() => {
+    const syncFirebaseSession = async () => {
+      if (!firebaseUser) {
+        setIsAuthLoading(false);
+        return;
+      }
+        const idToken = await firebaseUser.getIdToken();
+        const data = await firebaseAuth(idToken);
+        localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+        if (!cancelled) {
+          setAuthUser(data.user);
+        }
+        if (!cancelled) {
+          setIsAuthLoading(false);
+        }
+      }
+    return () => {
+  const handleGoogleSignIn = async () => {
+      setJoinStatusMessage("");
+      await signinWithGoogle();
+      setJoinStatusMessage("Google login failed. Please try again.");
+    }
+  const handleGoogleSignOut = async () => {
+      await firebaseLogout();
+      setAuthUser(null);
+      setJoinStatusMessage("Signed out successfully.");
+    }
+  const checkCameraAndMic = async () => {
+    if (!authUser) {
+      setJoinStatusMessage("Please sign in with Google first.");
+      return;
+    }
+    setIsCheckingMedia(true);
+    setJoinStatusMessage("");
+      const stream = await navigator.mediaDevices.getUserMedia({
+      if (mediaStream) {
+      }
+      setMediaStream(stream);
+      setCameraReady(stream.getVideoTracks().length > 0);
+      setMicReady(stream.getAudioTracks().length > 0);
+      setIsCameraOn(true);
+      setIsMicOn(true);
+      setJoinStatusMessage("Camera and microphone are ready.");
+      setCameraReady(false);
+      setMicReady(false);
+      setJoinStatusMessage(
+      setIsCheckingMedia(false);
+    }
+  const toggleCamera = () => {
+    if (!mediaStream) {
+      setJoinStatusMessage("Please check camera and mic first.");
+      return;
+    }
+    if (!track) {
+      setJoinStatusMessage("No camera track found.");
+      return;
+    }
+    setIsCameraOn(track.enabled);
+  const toggleMic = () => {
+    if (!mediaStream) {
+      setJoinStatusMessage("Please check camera and mic first.");
+      return;
+    }
+    if (!track) {
+      setJoinStatusMessage("No microphone track found.");
+      return;
+    }
+    setIsMicOn(track.enabled);
+  const createMeeting = () => {
+    if (!authUser) {
+      setJoinStatusMessage("Please sign in with Google first.");
+      return;
+    }
+    if (!cameraReady || !micReady) {
+      setJoinStatusMessage("Please check camera and mic before creating a meeting.");
+      return;
+    }
+    setShowSubjectPrompt(true);
+  const confirmCreateMeeting = () => {
+    if (!subject) {
+      setJoinStatusMessage("Please enter meeting subject.");
+      return;
+    }
+    navigate(`/meeting/${id}`, {
+    setShowSubjectPrompt(false);
+    setMeetingSubject("");
+  const askToJoin = () => {
+    if (!authUser) {
+      setJoinStatusMessage("Please sign in with Google first.");
+      return;
+    }
+    if (!meetingIdValue) {
+      setJoinStatusMessage("Please enter a meeting ID.");
+      return;
+    }
+    if (!cameraReady || !micReady) {
+      setJoinStatusMessage("Please check camera and mic before asking to join.");
+      return;
+    }
+    setIsRequestingJoin(true);
+    setJoinStatusMessage("Waiting for host approval...");
+    socket.emit("request-join", {
+    socket.once("join-response", (payload) => {
+      if (payload?.accepted) {
+        setJoinStatusMessage("Request accepted. Joining meeting...");
+        navigate(`/meeting/${meetingIdValue}`, {
+        setJoinStatusMessage(payload?.reason || "Host declined your request.");
+      }
+      setIsRequestingJoin(false);
+  const openMenuRoot = () => {
+    setPanelError("");
+    setIsHistoryMenuOpen(true);
+    setDetailPanelView("");
+  const closeHistoryMenu = () => {
+    setIsHistoryMenuOpen(false);
+    setDetailPanelView("");
+    setPanelError("");
+  const closeDetailPanel = () => {
+    setDetailPanelView("");
+    setPanelError("");
+  const openMeetings = async () => {
+    setDetailPanelView("meetings");
+    setPanelLoading(true);
+    setPanelError("");
+      const [memberData, hostData] = await Promise.all([
+      setMemberMeetings(memberData?.meetings || []);
+      setHostMeetings(hostData?.meetings || []);
+      setPanelError("Unable to load meetings history.");
+      setPanelLoading(false);
+    }
+  const openSummaries = async () => {
+    setDetailPanelView("summaries");
+    setPanelLoading(true);
+    setPanelError("");
+      const data = await getSummaryHistory();
+      setSummaryItems(summaries);
+      summaries.forEach((item) => {
+      setSummaryLanguageMap(nextLanguageMap);
+      setPanelError("Unable to load summaries history.");
+      setPanelLoading(false);
+    }
+  const getSummaryRole = (summary) => {
+    const currentUserName = (authUser?.fullName || authUser?.username || "").trim().toLowerCase();
+    const summaryHostName = (summary?.host || "").trim().toLowerCase();
+    return currentUserName && summaryHostName === currentUserName ? "host" : "member";
+  const downloadSummaryFromPanel = async (item) => {
+    if (!meetingIdValue) return;
+    setActiveDownloadMeetingId(meetingIdValue);
+    setPanelError("");
+      const pdfRes = await fetch(`${window.location.protocol}//${window.location.hostname}:5000/api/pdf/${meetingIdValue}?lang=${lang}`);
+      if (!pdfRes.ok) {
+      const blob = await pdfRes.blob();
+      link.setAttribute("download", `meeting-${meetingIdValue}-${lang}.pdf`);
+      setPanelError("Unable to download summary PDF right now.");
+      setActiveDownloadMeetingId("");
+    }
+  const renderPrimaryHistoryPanel = () => {
+    return (
+  const renderDetailHistoryPanel = () => {
+    if (panelLoading) {
+      return <div className="history-panel-status">Loading...</div>;
+    }
+    if (panelError) {
+    if (detailPanelView === "meetings") {
+        ...hostMeetings.map((meeting) => ({ ...meeting, role: "host" })),
+        ...memberMeetings.map((meeting) => ({ ...meeting, role: "member" })),
+      if (!meetingCards.length) {
+        return <div className="history-panel-status">No meetings found.</div>;
+      }
+      return (
+          {meetingCards.map((meeting) => (
+                      meeting.participants.map((participant) => (
+    }
+    if (detailPanelView !== "summaries") {
+      return <div className="history-panel-status">Select a section to view details.</div>;
+    }
+    if (!summaryItems.length) {
+      return <div className="history-panel-status">No summaries available.</div>;
+    }
+    return (
+        {summaryItems.map((summary) => {
+          return (
+                  onChange={(e) => {
+                    setSummaryLanguageMap((prev) => ({
+  return (
+                  onError={(e) => {
+                {features.map((feature, index) => (
+                          onError={(e) => {
+                onChange={(e) => setMeetingId(e.target.value)}
+              onChange={(e) => setMeetingSubject(e.target.value)}
+                onClick={() => {
+                  setShowSubjectPrompt(false);
+                  setMeetingSubject("");
+
+
+const SummaryPage = () => {
+  const downloadPDF = async () => {
+    setIsDownloading(true);
+    setDownloadError("");
+      const res = await axios.get(
+      link.setAttribute(
+      setIsDownloading(false);
+      setIsModifying(false);
+    }
+  return (
+          onChange={(e) => setLanguage(e.target.value)}
+            onClick={() => navigate(`/meeting/${meetingId}`)}
+            onClick={() => navigate("/")}
+            Return to Home
+
+
+export const getSocket = (token) => {
+  if (!token) {
+  if (socket && activeToken !== token) {
+  }
+  if (!socket) {
+  }
+  return socket;
+export const disconnectSocket = () => {
+  if (socket) {
+  }
+
+
+) => {
+    if (!SpeechRecognition) {
+    recognition.onresult = (event) => {
+    recognition.onerror = (event) => {
+    return recognition;
+
+
+def log_runtime(event: str, payload: dict | None = None):
+def resolve_available_gemini_models():
+        return []
+    return available
+def run_gemini_with_fallback(prompt: str):
+            response = model.generate_content(prompt)
+                raise ValueError("Gemini returned an empty response")
+            return text, model_name
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+            message = await websocket.receive()
+                result = await loop.run_in_executor(
+                    translated = await loop.run_in_executor(
+                        meeting_entries = MEETING_TRANSCRIPTS.setdefault(meeting_id, [])
+                    await websocket.send_json({
+                    await websocket.send_json({
+async def get_transcript(meeting_id: str, lang: str = DEFAULT_LANGUAGE):
+                translated_text = translate_text(original_text, lang)
+    return JSONResponse(content={
+async def generate_pdf(
+        return JSONResponse(
+                text = translate_text(original_text, lang)
+    return StreamingResponse(
+        }
+async def modify_transcript(meeting_id: str):
+        return JSONResponse(
+        return JSONResponse(
+        transcript_text = "\n".join([
+        return JSONResponse(content={
+        return JSONResponse(
+            }
+
+
+class StreamingASR:
+    def __init__(self):
+    def step(self, chunk: np.ndarray):
+            return None
+            return None
+            return {
+            }
+            return None
+        return {
+        }
+
+
+def register_pdf_font() -> str:
+    Returns the registered font name. Falls back to Helvetica when
+        return font_name
+                            return font_name
+                    return font_name
+    return "Helvetica"
+
+
+}
+def nllb_translate(text: str, target_lang: str):
+        return text
+            return_tensors="pt",
+        return output.strip()
+        return text
+def translate_text(text: str, target_lang: str):
+        return text
+            return argos_translation.translate(text)
+            return nllb_translate(text, target_lang)
+            return text
+        return text
+        return text
+
+
+

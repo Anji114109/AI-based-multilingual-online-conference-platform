@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+venv/
+
+# Large ML model files (exceed GitHub 100MB limit - download separately)
+*.onnx
+*.pt
+*.bin
+*.safetensors
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables (keep .env.example, ignore actual .env)
+.env
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Temp / uploads
+temp/
+temp_audio/
+uploads/
+
+# SSL certs
+*.pem
+
+# Python cache
+*.egg-info/
+.pytest_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
